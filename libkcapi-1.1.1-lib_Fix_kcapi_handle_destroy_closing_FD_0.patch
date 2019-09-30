@@ -1,0 +1,33 @@
+From b2e9360dab74de1ffcb8527610e88b0da87c701e Mon Sep 17 00:00:00 2001
+From: Ondrej Mosnacek <omosnace@redhat.com>
+Date: Mon, 30 Jul 2018 17:17:59 +0200
+Subject: [PATCH] lib: Fix _kcapi_handle_destroy() closing FD 0
+
+The kcapi_handle structure is initialized with zeroes at allocation.
+However, since it contains several file descriptor variables, it may
+happen that _kcapi_handle_destroy() is executed while some of these are
+set to 0, causing an unwanted call to close(0).
+
+This patch prevents it by initializing all FD variables to -1 right
+after handle allocation.
+---
+ lib/kcapi-kernel-if.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/lib/kcapi-kernel-if.c b/lib/kcapi-kernel-if.c
+index 595ce68..dfa94b4 100644
+--- a/lib/kcapi-kernel-if.c
++++ b/lib/kcapi-kernel-if.c
+@@ -1146,6 +1146,12 @@ int _kcapi_handle_init(struct kcapi_handle **caller, const char *type,
+ 
+ 	handle->tfm = tfm;
+ 
++	/* Initialize all fd vars to -1 to avoid unwanted close(0) */
++	handle->pipes[0] = -1;
++	handle->pipes[1] = -1;
++	handle->opfd = -1;
++	handle->aio.efd = -1;
++
+ 	ret = _kcapi_handle_init_tfm(handle, type, ciphername);
+ 	if (ret)
+ 		goto err;
