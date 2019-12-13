@@ -4,7 +4,7 @@
 
 Name:           libkcapi
 Version:        1.1.5
-Release:        1
+Release:        2
 Summary:        libkcapi - Linux Kernel Crypto API User Space Interface Library
 
 License:        BSD or GPLv2
@@ -17,12 +17,19 @@ Patch0:       libkcapi-1.1.1-lib_Fix_kcapi_handle_destroy_closing_FD_0.patch
 BuildRequires:  clang coreutils cppcheck docbook-utils-pdf gcc git hardlink
 BuildRequires:  libtool openssl perl systemd xmlto  kernel-headers >= 4.10.0
 
-Requires:       systemd
+Requires:       systemd coreutils openssl perl
+
+Provides:       %{name}-tools
+Provides:       hmaccalc          == 0.9.14-10.1
+Provides:       hmaccalc%{?_isa}  == 0.9.14-10.1
+Provides:       %{name}-hmaccalc
+Provides:       %{name}-tests
 
 Obsoletes:      %{name}-replacements <= %{version}-%{release}
-
 Obsoletes:      %{name}-tools
-Provides:       %{name}-tools
+Obsoletes:      hmaccalc          <= 0.9.14-10
+Obsoletes:      %{name}-hmaccalc
+Obsoletes:      %{name}-tests
 
 %description
 The Linux kernel exports a Netlink interface of type AF_ALG to allow user space to utilize the kernel crypto API.
@@ -33,15 +40,6 @@ Results from the kernel crypto API are returned to the consumer via the library 
 %package        devel
 Summary:        Development files for the %{name} package
 Requires:       %{name} == %{version}-%{release}
-Requires:       coreutils
-Requires:       openssl
-Requires:       perl
-
-Obsoletes:      hmaccalc          <= 0.9.14-10
-Provides:       hmaccalc          == 0.9.14-10.1
-
-Obsoletes:      %{name}-hmaccalc
-Provides:       %{name}-hmaccalc
 
 Obsoletes:      %{name}-static
 Provides:       %{name}-static
@@ -160,7 +158,9 @@ ln -s libkcapi.so.%{version}.hmac    %{buildroot}/%{_lib}/fipscheck/libkcapi.so.
 %doc %{_pkgdocdir}/README.%{distroname_ext}
 %{_sysctldir}/%{sysctl_prio}-%{name}-optmem_max.conf
 %{_bindir}/kcapi*
-
+%{_bindir}/sha*hmac
+/%{_lib}/hmaccalc/sha*hmac.hmac
+%{_libexecdir}/%{name}/*
 
 %files          devel
 %doc %{_pkgdocdir}/CHANGES.md
@@ -168,10 +168,7 @@ ln -s libkcapi.so.%{version}.hmac    %{buildroot}/%{_lib}/fipscheck/libkcapi.so.
 %{_includedir}/kcapi.h
 /%{_lib}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
-%{_bindir}/sha*hmac
-/%{_lib}/hmaccalc/sha*hmac.hmac
 /%{_lib}/%{name}.a
-%{_libexecdir}/%{name}/*
 
 %files          help
 %doc %{_pkgdocdir}
@@ -179,5 +176,8 @@ ln -s libkcapi.so.%{version}.hmac    %{buildroot}/%{_lib}/fipscheck/libkcapi.so.
 %{_mandir}/man3/kcapi_*.3.*
 
 %changelog
+* Thu Nov 14 2019 openEuler Buildteam <buildteam@openeuler.org> - 1.1.5-2
+- Correct provides of hmaccalc
+
 * Tue Sep 3 2019 openEuler Buildteam <buildteam@openeuler.org> - 1.1.5-1
 - Package init
