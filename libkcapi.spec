@@ -3,8 +3,8 @@
 %global distroname_ext    %{_vendor}
 
 Name:           libkcapi
-Version:        1.1.5
-Release:        2
+Version:        1.2.0
+Release:        1
 Summary:        libkcapi - Linux Kernel Crypto API User Space Interface Library
 
 License:        BSD or GPLv2
@@ -132,7 +132,7 @@ find %{buildroot}%{_pkgdocdir} -type f -print | xargs %{__chmod} -c 0644
 find %{buildroot}%{_pkgdocdir} -type d -print | xargs %{__chmod} -c 0755
 
 for d in %{_mandir} %{_pkgdocdir}; do
-  %{_sbindir}/hardlink -cfv %{buildroot}$d
+  hardlink -cfv %{buildroot}$d
 done
 
 %ldconfig_scriptlets
@@ -143,7 +143,7 @@ bin/kcapi-hasher -n sha512hmac %{buildroot}%{_bindir}/sha256hmac | cut -f 1 -d '
 bin/kcapi-hasher -n sha512hmac %{buildroot}%{_bindir}/sha384hmac | cut -f 1 -d ' ' > %{buildroot}/%{_lib}/hmaccalc/sha384hmac.hmac
 bin/kcapi-hasher -n sha512hmac %{buildroot}%{_bindir}/sha512hmac | cut -f 1 -d ' ' > %{buildroot}/%{_lib}/hmaccalc/sha512hmac.hmac
 
-%{_sbindir}/hardlink -cfv %{buildroot}%{_bindir}
+hardlink -cfv %{buildroot}%{_bindir}
 bin/kcapi-hasher -n fipshmac -d %{buildroot}/%{_lib}/fipscheck   %{buildroot}/%{_lib}/libkcapi.so.%{version} || exit 1
 ln -s libkcapi.so.%{version}.hmac    %{buildroot}/%{_lib}/fipscheck/libkcapi.so.1.hmac
 
@@ -176,6 +176,12 @@ ln -s libkcapi.so.%{version}.hmac    %{buildroot}/%{_lib}/fipscheck/libkcapi.so.
 %{_mandir}/man3/kcapi_*.3.*
 
 %changelog
+* Fri Jul 17 2020 yang_zhuang_zhuang<yangzhuangzhuang1@huawei.com> - 1.2.0-1
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:update to 1.2.0
+
 * Thu Nov 14 2019 openEuler Buildteam <buildteam@openeuler.org> - 1.1.5-2
 - Correct provides of hmaccalc
 
