@@ -4,7 +4,7 @@
 
 Name:           libkcapi
 Version:        1.2.0
-Release:        1
+Release:        2
 Summary:        libkcapi - Linux Kernel Crypto API User Space Interface Library
 
 License:        BSD or GPLv2
@@ -17,7 +17,7 @@ Patch0:       libkcapi-1.1.1-lib_Fix_kcapi_handle_destroy_closing_FD_0.patch
 BuildRequires:  clang coreutils cppcheck docbook-utils-pdf gcc git hardlink
 BuildRequires:  libtool openssl perl systemd xmlto  kernel-headers >= 4.10.0
 
-Requires:       systemd coreutils openssl perl
+Requires:       systemd
 
 Provides:       %{name}-tools
 Provides:       hmaccalc          == 0.9.14-10.1
@@ -49,6 +49,18 @@ Provides:       %{name}-tests
 
 %description    devel
 Header files for applications that use %{name}.
+
+%package tests
+Summary:        Testing scripts for the %{name} package
+Requires:       %{name}%{?_isa}  == %{version}-%{release}
+Requires:       %{name}-tools
+Requires:       %{name}-hmaccalc
+Requires:       coreutils
+Requires:       openssl
+Requires:       perl
+
+%description    tests
+Auxiliary scripts for testing %{name}.
 
 %package_help
 
@@ -160,7 +172,6 @@ ln -s libkcapi.so.%{version}.hmac    %{buildroot}/%{_lib}/fipscheck/libkcapi.so.
 %{_bindir}/kcapi*
 %{_bindir}/sha*hmac
 /%{_lib}/hmaccalc/sha*hmac.hmac
-%{_libexecdir}/%{name}/*
 
 %files          devel
 %doc %{_pkgdocdir}/CHANGES.md
@@ -170,12 +181,21 @@ ln -s libkcapi.so.%{version}.hmac    %{buildroot}/%{_lib}/fipscheck/libkcapi.so.
 %{_libdir}/pkgconfig/%{name}.pc
 /%{_lib}/%{name}.a
 
+%files          tests
+%{_libexecdir}/%{name}/*
+
 %files          help
 %doc %{_pkgdocdir}
 %{_mandir}/man1/kcapi*.1.*
 %{_mandir}/man3/kcapi_*.3.*
 
 %changelog
+* Fri Oct 16 2020 zhangxingliang <zhangxingliang3@huawei.com> - 1.2.0-2
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:Detach the sub package libkcapi-tests from libkcapi
+
 * Fri Jul 17 2020 yang_zhuang_zhuang<yangzhuangzhuang1@huawei.com> - 1.2.0-1
 - Type:enhancement
 - ID:NA
