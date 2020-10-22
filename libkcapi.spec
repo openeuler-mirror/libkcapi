@@ -4,7 +4,7 @@
 
 Name:           libkcapi
 Version:        1.2.0
-Release:        2
+Release:        3
 Summary:        libkcapi - Linux Kernel Crypto API User Space Interface Library
 
 License:        BSD or GPLv2
@@ -23,13 +23,11 @@ Provides:       %{name}-tools
 Provides:       hmaccalc          == 0.9.14-10.1
 Provides:       hmaccalc%{?_isa}  == 0.9.14-10.1
 Provides:       %{name}-hmaccalc
-Provides:       %{name}-tests
 
 Obsoletes:      %{name}-replacements <= %{version}-%{release}
 Obsoletes:      %{name}-tools
 Obsoletes:      hmaccalc          <= 0.9.14-10
 Obsoletes:      %{name}-hmaccalc
-Obsoletes:      %{name}-tests
 
 %description
 The Linux kernel exports a Netlink interface of type AF_ALG to allow user space to utilize the kernel crypto API.
@@ -190,6 +188,9 @@ ln -s libkcapi.so.%{version}.hmac    %{buildroot}/%{_lib}/fipscheck/libkcapi.so.
 %{_mandir}/man3/kcapi_*.3.*
 
 %changelog
+* Thu Oct 22 2020 zhangxingliang <zhangxingliang3@huawei.com> - 1.2.0-3
+- Solve the failure when installing libkcapi-tests
+
 * Fri Oct 16 2020 zhangxingliang <zhangxingliang3@huawei.com> - 1.2.0-2
 - Detach the sub package libkcapi-tests from libkcapi
 
