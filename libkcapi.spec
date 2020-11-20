@@ -4,7 +4,7 @@
 
 Name:           libkcapi
 Version:        1.2.0
-Release:        3
+Release:        4
 Summary:        libkcapi - Linux Kernel Crypto API User Space Interface Library
 
 License:        BSD or GPLv2
@@ -41,9 +41,6 @@ Requires:       %{name} == %{version}-%{release}
 
 Obsoletes:      %{name}-static
 Provides:       %{name}-static
-
-Obsoletes:      %{name}-tests
-Provides:       %{name}-tests
 
 %description    devel
 Header files for applications that use %{name}.
@@ -188,6 +185,12 @@ ln -s libkcapi.so.%{version}.hmac    %{buildroot}/%{_lib}/fipscheck/libkcapi.so.
 %{_mandir}/man3/kcapi_*.3.*
 
 %changelog
+* Fri Nov 20 2020 panxiaohe <panxiaohe@huawei.com> - 1.2.0-4
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:Solve the failure when installing libkcapi-devel
+
 * Thu Oct 22 2020 zhangxingliang <zhangxingliang3@huawei.com> - 1.2.0-3
 - Type:bugfix
 - ID:NA
