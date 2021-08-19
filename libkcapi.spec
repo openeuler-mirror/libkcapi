@@ -4,7 +4,7 @@
 
 Name:           libkcapi
 Version:        1.2.0
-Release:        4
+Release:        5
 Summary:        libkcapi - Linux Kernel Crypto API User Space Interface Library
 
 License:        BSD or GPLv2
@@ -14,7 +14,7 @@ Source1:        http://www.chronox.de/%{name}/%{name}-%{version}.tar.xz.asc
 
 Patch0:       libkcapi-1.1.1-lib_Fix_kcapi_handle_destroy_closing_FD_0.patch
 
-BuildRequires:  clang coreutils cppcheck docbook-utils-pdf gcc git hardlink
+BuildRequires:  clang coreutils cppcheck docbook-utils-pdf gcc hardlink
 BuildRequires:  libtool openssl perl systemd xmlto  kernel-headers >= 4.10.0
 
 Requires:       systemd
@@ -60,7 +60,7 @@ Auxiliary scripts for testing %{name}.
 %package_help
 
 %prep
-%autosetup -p 1 -S git
+%autosetup -p 1
 
 cat << EOF > README.%{distroname_ext}
 This package increases the default limit of the ancillary buffer size
@@ -185,6 +185,9 @@ ln -s libkcapi.so.%{version}.hmac    %{buildroot}/%{_lib}/fipscheck/libkcapi.so.
 %{_mandir}/man3/kcapi_*.3.*
 
 %changelog
+* Fri Jul 30 2021 chenyanpanHW <chenyanpan@huawei.com> - 1.2.0-5
+- DESC: delete -S git from %autosetup, and delete BuildRequires git
+
 * Fri Nov 20 2020 panxiaohe <panxiaohe@huawei.com> - 1.2.0-4
 - Type:bugfix
 - ID:NA
