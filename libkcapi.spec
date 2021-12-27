@@ -14,8 +14,14 @@ Source1:        http://www.chronox.de/%{name}/%{name}-%{version}.tar.xz.asc
 
 Patch0:       libkcapi-1.1.1-lib_Fix_kcapi_handle_destroy_closing_FD_0.patch
 
-BuildRequires:  clang coreutils cppcheck docbook-utils-pdf gcc hardlink
+BuildRequires:  clang coreutils cppcheck docbook-utils-pdf gcc 
 BuildRequires:  libtool openssl perl systemd xmlto  kernel-headers >= 4.10.0
+
+%ifarch riscv64
+BuildRequires:  util-linux autoconf 
+%else 
+BuildRequires:  hardlink
+%endif
 
 Requires:       systemd
 
@@ -185,6 +191,9 @@ ln -s libkcapi.so.%{version}.hmac    %{buildroot}/%{_lib}/fipscheck/libkcapi.so.
 %{_mandir}/man3/kcapi_*.3.*
 
 %changelog
+* Tue Dec 21 2021 mc964203886 <machi@iscas.ac.cn> - 1.2.0-6
+- Spec: add buildRequires for riscv64
+
 * Fri Jul 30 2021 chenyanpanHW <chenyanpan@huawei.com> - 1.2.0-5
 - DESC: delete -S git from %autosetup, and delete BuildRequires git
 
